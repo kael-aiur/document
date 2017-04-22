@@ -1,5 +1,5 @@
 {
-  "swagger" : "2.0",
+  "swagger": "2.0",
   "info": {
     "version": "3.0.0",
     "title": "SSO API",
@@ -13,10 +13,11 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8080",
-  "basePath": "/sso",
+  "host": "localhost:8089",
+  "basePath": "/ssov3",
   "schemes": [
-    "http","https"
+    "http",
+    "https"
   ],
   "consumes": [
     "text/plain; charset=utf-8",
@@ -27,8 +28,9 @@
     "text/plain; charset=utf-8"
   ],
   "paths": {
-    "/system/publickey":{
-      "get":{
+    "/system/publickey": {
+      "get": {
+        "summary": "获取SSO签名公钥",
         "description": "返回SSO签名公钥",
         "produces": [
           "text/plain; charset=utf-8"
@@ -42,8 +44,205 @@
           }
         }
       }
+    },
+    "/oauth2/token": {
+      "post": {
+        "summary": "获取access token接口",
+        "description": "参考[openId Connect](http://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint)",
+        "operationId": "token",
+        "parameters": [
+          {
+            "name": "grant_type",
+            "type": "string",
+            "in": "formData",
+            "required": "true",
+            "description": "认证方式, 标准协议可选值:
+            <ul>
+              <li>authorization_code: 使用`code`和`Authorization`请求头获取代表用户和应用的access token</li>
+              <li>password: 使用`username, password, client_id`获取代表用户的access token</li>
+              <li>refresh_token: 使用`refresh_token`获取access token</li>
+              <li>client_secret_basic: 使用`Authorization`请求头获取代表应用身份的access token</li>
+              <li>client_secret_post: 使用`client_id, client_secret`获取代表应用身份的access token</li>
+            </ul>
+            品高SSO扩展可选值
+            <ul>
+              <li>password_client_post: 使用`username, password, client_id, client_secret`获取代表用户和应用的access token</li>
+              <li>jwt_client_credentials: 使用`jwt_token`参数和`Authorization`请求头获取代表用户和应用的access token</li>
+              <li>jwt_client_post: 使用`jwt_token, client_id, client_secret`参数获取代表用户和应用的access token</li>
+            </ul>"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "应用校验请求头，值是`Basic {clientId}:{clientSecret}`的base64编码，参考[RFC6749](https://tools.ietf.org/html/rfc6749#section-2.3), 如`Basic Y2xpZW50SWQ6Y2xpZW50U2VjcmV0`"
+          },
+          {
+            "name": "code",
+            "in": "formData",
+            "type": "string",
+            "description": "授权码"
+          },
+          {
+            "name": "client_id",
+            "type": "string",
+            "in": "formData",
+            "description": "应用唯一标识"
+          },
+          {
+            "name": "client_secret",
+            "type": "string",
+            "in": "formData",
+            "description": "应用密码"
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "in": "formData",
+            "description": "用户登录账号"
+          },
+          {
+            "name": "password",
+            "type": "string",
+            "in": "formData",
+            "description": "用户登录密码"
+          },
+          {
+            "name": "refresh_token",
+            "in": "formData",
+            "type": "string",
+            "description": "刷新令牌"
+          },
+          {
+            "name": "jwt_token",
+            "in": "formData",
+            "type": "string",
+            "description": "扩展参数，需要SSO颁发"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/AccessToken"
+            },
+            "description": "返回成功创建的access token，可能包含其他扩展属性，如果不清楚扩展属性的含义，可以忽略扩展属性"
+          },
+          "default": {
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/OAuthErrorMessage"
+            },
+            "description": "失败结果"
+          }
+        }
+      }
+    },
+    "/oauth2/tokeninfo":{
+      "get": {
+        "summary": "获取access token信息",
+        "operationId": "tokeninfo",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "type": "string",
+            "required": "true",
+            "description": "SSO颁发的access token"
+          },
+          {
+            "name": "response_type",
+            "type": "string",
+            "in": "query",
+            "description": "返回类型，非必需值，默认是`default`"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "应用校验请求头，值是`Basic {clientId}:{clientSecret}`的base64编码，参考[RFC6749](https://tools.ietf.org/html/rfc6749#section-2.3), 如`Basic Y2xpZW50SWQ6Y2xpZW50U2VjcmV0`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/TokenInfo"
+            },
+            "description": "成功响应"
+          },
+          "default": {
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/OAuthErrorMessage"
+            },
+            "description": "失败响应"
+          }
+        }
+      }
     }
-    
+  },
+  "definitions": {
+    "AccessToken": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "description": "访问令牌"
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "刷新令牌"
+        },
+        "expires_in": {
+          "type": "integer",
+          "format": "int32",
+          "description": "过期时间，指的是从收到这个返回值开始之后还有多少秒过期"
+        },
+        "token_type": {
+          "type": "string",
+          "description": "令牌类型，一般是Bearer"
+        }
+      }
+    },
+    "OAuthErrorMessage": {
+      "type": "object",
+      "properties": {
+        "error":{
+          "type":"string",
+          "description":"错误原因"
+        },
+        "error_description":{
+          "type":"string",
+          "description":"错误描述"
+        }
+      }
+    },
+    "TokenInfo": {
+      "type": "object",
+      "properties": {
+        "user_id":{
+          "type":"string",
+          "description": "用户id"
+        },
+        "username":{
+          "type":"string",
+          "description": "用户登录账号"
+        },
+        "expires_in":{
+          "type":"integer",
+          "format":"int32",
+          "description": "这次请求返回时，这个access token还有多少秒过期"
+        },
+        "client_id":{
+          "type":"string",
+          "description": "如果这个access token的client没有验证过，这个值不会返回"
+        },
+        "scope":{
+          "type":"string",
+          "description": "授权列表，表示这个access token所具有的权限"
+        }
+      }
+    }
   }
-    
 }
