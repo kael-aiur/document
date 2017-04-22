@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8089",
-  "basePath": "/ssov3",
+  "host": "developer.bingosoft.net:12000",
+  "basePath": "/penghj_sso",
   "schemes": [
     "http",
     "https"
@@ -55,21 +55,7 @@
             "name": "grant_type",
             "type": "string",
             "in": "formData",
-            "required": "true",
-            "description": "认证方式, 标准协议可选值:
-            <ul>
-              <li>authorization_code: 使用`code`和`Authorization`请求头获取代表用户和应用的access token</li>
-              <li>password: 使用`username, password, client_id`获取代表用户的access token</li>
-              <li>refresh_token: 使用`refresh_token`获取access token</li>
-              <li>client_secret_basic: 使用`Authorization`请求头获取代表应用身份的access token</li>
-              <li>client_secret_post: 使用`client_id, client_secret`获取代表应用身份的access token</li>
-            </ul>
-            品高SSO扩展可选值
-            <ul>
-              <li>password_client_post: 使用`username, password, client_id, client_secret`获取代表用户和应用的access token</li>
-              <li>jwt_client_credentials: 使用`jwt_token`参数和`Authorization`请求头获取代表用户和应用的access token</li>
-              <li>jwt_client_post: 使用`jwt_token, client_id, client_secret`参数获取代表用户和应用的access token</li>
-            </ul>"
+            "required": "true"
           },
           {
             "name": "Authorization",
