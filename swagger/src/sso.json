@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "developer.bingosoft.net:12000",
-  "basePath": "/penghj_sso",
+  "host": "localhost:8089",
+  "basePath": "/ssov3",
   "schemes": [
     "http",
     "https"
@@ -55,7 +55,21 @@
             "name": "grant_type",
             "type": "string",
             "in": "formData",
-            "required": "true"
+            "required": "true",
+            "description": "认证方式, 标准协议可选值:
+            <ul>
+            <li>authorization_code: 使用`code`和`Authorization`请求头获取代表用户和应用的access token</li>
+            <li>password: 使用`username, password, client_id`获取代表用户的access token</li>
+            <li>refresh_token: 使用`refresh_token`获取access token</li>
+            <li>client_secret_basic: 使用`Authorization`请求头获取代表应用身份的access token</li>
+            <li>client_secret_post: 使用`client_id, client_secret`获取代表应用身份的access token</li>
+            </ul>
+            品高SSO扩展可选值
+            <ul>
+            <li>password_client_post: 使用`username, password, client_id, client_secret`获取代表用户和应用的access token</li>
+            <li>jwt_client_credentials: 使用`jwt_token`参数和`Authorization`请求头获取代表用户和应用的access token</li>
+            <li>jwt_client_post: 使用`jwt_token, client_id, client_secret`参数获取代表用户和应用的access token</li>
+            </ul>"
           },
           {
             "name": "Authorization",
@@ -146,7 +160,7 @@
             "name": "Authorization",
             "in": "header",
             "type": "string",
-            "description": "应用校验请求头，值是`Basic {clientId}:{clientSecret}`的base64编码，参考[RFC6749](https://tools.ietf.org/html/rfc6749#section-2.3), 如`Basic Y2xpZW50SWQ6Y2xpZW50U2VjcmV0`"
+            "description": "非必须参数，应用校验请求头，值是`Basic {clientId}:{clientSecret}`的base64编码，参考[RFC6749](https://tools.ietf.org/html/rfc6749#section-2.3), 如`Basic Y2xpZW50SWQ6Y2xpZW50U2VjcmV0`"
           }
         ],
         "responses": {
@@ -154,6 +168,60 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/TokenInfo"
+            },
+            "description": "成功响应"
+          },
+          "default": {
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/OAuthErrorMessage"
+            },
+            "description": "失败响应"
+          }
+        }
+      }
+    },
+    "/oauth2/jwt":{
+      "post": {
+        "summary": "生成jwt令牌",
+        "operationId": "jwt",
+        "parameters": [
+          {
+            "name": "algorithm",
+            "type": "string",
+            "in": "formData",
+            "description": "jwt签名算法，目前只支持rsa"
+          },
+          {
+            "name": "access_token",
+            "type": "string",
+            "in": "formData",
+            "description": "访问令牌，SSO会根据这个访问令牌生成jwt"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": "true",
+            "description": "应用校验请求头，值是`Basic {clientId}:{clientSecret}`的base64编码，参考[RFC6749](https://tools.ietf.org/html/rfc6749#section-2.3), 如`Basic Y2xpZW50SWQ6Y2xpZW50U2VjcmV0`"
+          },
+          {
+            "name": "x-impersonate-for",
+            "in": "header",
+            "type": "string",
+            "description": "指定代理生成jwt的应用，指是应用ID，如果这个参数没有指定，默认是为调用者自己生成jwt，如果指定了，则为指定应用生成jwt，为指定应用生成jwt需要在SSO授权"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "jwt_token":{
+                  "type":"string",
+                  "description":"jwt值"
+                }
+              }
             },
             "description": "成功响应"
           },
