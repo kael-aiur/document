@@ -1,0 +1,49 @@
+{
+  "swagger" : "2.0",
+  "info": {
+    "version": "3.0.0",
+    "title": "SSO API",
+    "contact": {
+      "name": "Bingosoft",
+      "url": "http://dev.bingocc.com/",
+      "email": "penghj@bingosoft.net"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/sso",
+  "schemes": [
+    "http","https"
+  ],
+  "consumes": [
+    "text/plain; charset=utf-8",
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain; charset=utf-8"
+  ],
+  "paths": {
+    "/system/publickey":{
+      "get":{
+        "description": "返回SSO签名公钥",
+        "produces": [
+          "text/plain; charset=utf-8"
+        ],
+        "responses": {
+          "default": {
+            "description": "成功响应",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+    
+  }
+    
+}
