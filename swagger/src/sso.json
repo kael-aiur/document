@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8089",
+  "host": "10.200.84.30:8089",
   "basePath": "/ssov3",
   "schemes": [
     "http",
@@ -28,9 +28,10 @@
     "text/plain; charset=utf-8"
   ],
   "paths": {
-    "/system/publickey": {
+    "/publickey": {
       "get": {
         "summary": "获取SSO签名公钥",
+        "operationId": "获取SSO签名公钥",
         "description": "返回SSO签名公钥",
         "produces": [
           "text/plain; charset=utf-8"
@@ -49,7 +50,7 @@
       "post": {
         "summary": "获取access token接口",
         "description": "参考[openId Connect](http://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint)",
-        "operationId": "token",
+        "operationId": "获取Token",
         "parameters": [
           {
             "name": "grant_type",
@@ -141,7 +142,7 @@
     "/oauth2/tokeninfo":{
       "get": {
         "summary": "获取access token信息",
-        "operationId": "tokeninfo",
+        "operationId": "获取Token信息",
         "parameters": [
           {
             "name": "access_token",
@@ -184,7 +185,7 @@
     "/oauth2/jwt":{
       "post": {
         "summary": "生成jwt令牌",
-        "operationId": "jwt",
+        "operationId": "生成JWT",
         "parameters": [
           {
             "name": "algorithm",
