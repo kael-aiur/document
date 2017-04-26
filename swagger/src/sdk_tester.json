@@ -28,7 +28,45 @@
     "/authc_user": {
       "post": {
         "summary": "调用只验证用户的接口",
-        "operationId": "验证用户",
+        "operationId": "POST验证用户",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "x-security": {
+          "userRequired": "true"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      },
+      "get": {
+        "summary": "调用只验证用户的接口",
+        "operationId": "GET验证用户",
         "produces": [
           "text/html"
         ],
@@ -68,7 +106,79 @@
     "/authc_client": {
       "post": {
         "summary": "调用只验证应用的接口",
-        "operationId": "验证应用",
+        "operationId": "POST验证应用",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      },
+      "get": {
+        "summary": "调用只验证应用的接口",
+        "operationId": "GET验证应用",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      }
+    },
+    "/authc_user_client": {
+      "post": {
+        "summary": "调用验证用户和应用的接口",
+        "operationId": "POST验证用户和应用",
         "produces": [
           "text/html"
         ],
@@ -103,12 +213,10 @@
             "description": "错误返回结果"
           }
         }
-      }
-    },
-    "/authc_user_client": {
-      "post": {
+      },
+      "get": {
         "summary": "调用验证用户和应用的接口",
-        "operationId": "验证用户和应用",
+        "operationId": "GET验证用户和应用",
         "produces": [
           "text/html"
         ],
@@ -148,7 +256,45 @@
     "/use_client_credentials": {
       "post": {
         "summary": "调用换只代表应用的token调另一个应用",
-        "operationId": "换应用token",
+        "operationId": "POST换应用token",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "x-security": {
+          "userRequired": "true"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      },
+      "get": {
+        "summary": "调用换只代表应用的token调另一个应用",
+        "operationId": "GET换应用token",
         "produces": [
           "text/html"
         ],
@@ -188,7 +334,7 @@
     "/use_token_client_credentials":{
       "post": {
         "summary": "调用换只代表用户和应用的token调另一个应用",
-        "operationId": "换用户和应用token",
+        "operationId": "POST换用户和应用token",
         "produces": [
           "text/html"
         ],
@@ -223,6 +369,203 @@
             "description": "错误返回结果"
           }
         }
+      },
+      "get": {
+        "summary": "调用换只代表用户和应用的token调另一个应用",
+        "operationId": "GET换用户和应用token",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "x-security": {
+          "userRequired": "true"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      }
+    },
+    "/client_id_only": {
+      "post": {
+        "summary": "调用只允许ClientId的client接口",
+        "operationId": "POST验证ClientId",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      },
+      "get": {
+        "summary": "调用只允许ClientId的client接口",
+        "operationId": "GET验证ClientId",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      }
+    },
+    "/admin_and_client_id_only": {
+      "post": {
+        "summary": "调用只允许admin和ClientId的接口",
+        "operationId": "POST验证admin和ClientId",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "x-security": {
+          "userRequired": "true"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      },
+      "get": {
+        "summary": "调用只允许admin和ClientId的接口",
+        "operationId": "GET验证admin和ClientId",
+        "produces": [
+          "text/html"
+        ],
+        "security": [
+          {
+            "oauth2":[]
+          }
+        ],
+        "x-security": {
+          "userRequired": "true"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "required": "true",
+            "description": "访问令牌，如Bearer a56dbc89-fe91-4ca0-9763-797fc109757b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "正常返回结果"
+          },
+          "404": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "错误返回结果"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://developer.bingosoft.net:12100/ssov3/oauth2/authorize",
+      "scopes": {
       }
     }
   }
