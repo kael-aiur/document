@@ -1,30 +1,20 @@
-*.class
-.DS_Store
+.htaccess
+css.php
+rpc/
+sites/site*/admin/
+sites/site*/private/
+sites/site*/public/admin/
+sites/site*/public/setup/
+sites/site*/public/theme/
+textpattern/
 
-# Package Files #
-*.war
-*.ear
+*.swp
+*.temp
+*.tmp
+~*
+node_modules/
+*.graffle
+_book/
+book.pdf
 
-# Eclipse Files #
-.settings
-.project
-.classpath
-.externalToolBuilders/
-.tern-project
-
-# intellij
-.idea/
-*.iml
-
-# Maven Fields #
-target
-
-# Local Files #
-*.local.*
-*_local.*
-
-# Other Files #
-derby.log
-
-#ssov2 package#
-ssov2/
+.idea/*
